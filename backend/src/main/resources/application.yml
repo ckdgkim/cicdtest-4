@@ -1,0 +1,35 @@
+spring:
+
+  datasource:
+#    url: ${SPRING_DATASOURCE_URL}
+#    username: ${SPRING_DATASOURCE_USERNAME}
+#    password: ${SPRING_DATASOURCE_PASSWORD}
+
+#    url: jdbc:mysql://mysql-backend:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+#    username: root
+#    password: 1234
+
+    url: jdbc:mysql://ip-10-0-75-144.ap-northeast-2.compute.internal:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+
+#    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+#    username: root
+#    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect  # MySQL 8.x에 맞게 설정
+    show-sql: true
+    format-sql: true
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator  # actuator 경로 설정
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

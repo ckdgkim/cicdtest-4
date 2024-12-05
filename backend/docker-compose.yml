@@ -1,0 +1,39 @@
+version: '3'
+services:
+  mysql-backend:
+    image: mysql:8
+    container_name: mysql-backend
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+
+  backend:
+    build: ./  # 현재 디렉터리에서 Dockerfile을 사용해 빌드
+    image: compose-backend:back-1  # 이미지 이름 설정
+    container_name: backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-backend:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-backend:
+        condition: service_healthy
+    networks:
+      - backend-network
+    command: sh -c "java -jar /app/backend.jar"
+
+networks:
+  backend-network:
+    driver: bridge

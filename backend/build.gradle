@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+//tasks.withType(Test) {
+//    environment "SPRING_DATASOURCE_URL", System.getenv("SPRING_DATASOURCE_URL") ?: "jdbc:mysql://localhost:3307/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true"
+//    environment "SPRING_DATASOURCE_USERNAME", System.getenv("SPRING_DATASOURCE_USERNAME") ?: "root"
+//    environment "SPRING_DATASOURCE_PASSWORD", System.getenv("SPRING_DATASOURCE_PASSWORD") ?: "1234"
+//}
+//
+//test {
+//    useJUnitPlatform() // Test framework 설정 (JUnit Platform 사용)
+//    environment 'SPRING_DATASOURCE_URL', 'jdbc:mysql://localhost:3307/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true'
+//    environment 'SPRING_DATASOURCE_USERNAME', 'root'
+//    environment 'SPRING_DATASOURCE_PASSWORD', '1234'
+//}
