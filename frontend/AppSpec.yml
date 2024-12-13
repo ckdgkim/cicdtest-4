@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: /code-frontend.tar
+    destination: /home/ec2-user/
+  - source: /scripts/application_start.sh
+    destination: /home/ec2-user/scripts/
+
+hooks:
+  ApplicationStart:
+    - location: scripts/application_start.sh
+      timeout: 180
