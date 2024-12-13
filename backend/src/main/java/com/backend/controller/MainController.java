@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin(origins = "*")
+
 public class MainController {
 
     @Autowired  // UserRepository를 자동으로 주입

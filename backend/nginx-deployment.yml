@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2  # 파드의 복제본 수
+  selector:
+    matchLabels:
+      app: front-app  # 파드를 선택하기 위한 라벨
+  template:
+    metadata:
+      labels:
+        app: front-app  # 해당 파드에 설정할 라벨
+    spec:
+      containers:
+        - name: nginx-container  # 컨테이너 이름
+          image: nginx  # 사용할 도커 이미지 (여기서는 nginx)
+          imagePullPolicy: IfNotPresent  # 로컬에 이미지가 없으면 registry에서 이미지를 가져옴
+          ports:
+            - containerPort: 80  # 컨테이너 내부에서 사용할 포트

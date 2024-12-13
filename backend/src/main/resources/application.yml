@@ -1,28 +1,52 @@
 spring:
 
-  datasource:
-#    url: ${SPRING_DATASOURCE_URL}
-#    username: ${SPRING_DATASOURCE_USERNAME}
-#    password: ${SPRING_DATASOURCE_PASSWORD}
+#  datasource:
+#    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+#    username: ${DB_USER}
+#    password: ${DB_PASSWORD}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
 
 #    url: jdbc:mysql://mysql-backend:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
 #    username: root
 #    password: 1234
 
-    url: jdbc:mysql://ip-10-0-75-144.ap-northeast-2.compute.internal:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: root
-    password: 1234
+#    url: jdbc:mysql://ip-10-0-75-144.ap-northeast-2.compute.internal:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+#    username: root
+#    password: 1234
 
 #    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
 #    username: root
 #    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
       dialect: org.hibernate.dialect.MySQL8Dialect  # MySQL 8.x에 맞게 설정
     show-sql: true
     format-sql: true
+
+#  # MongoDB 설정 (인증 정보를 포함하여 사용)
+#  data:
+#    mongodb:
+#      uri: ${MONGODB_URI}  # MongoDB URI를 환경 변수로 설정
+#      database: mydb2
+#      auto-index-creation: true
+
+
+
+
+#    mongodb:
+#      uri: mongodb://mongodb:27017/mydb2  # MongoDB URI에 인증 정보 포함
+#      database: mydb2  # 사용할 MongoDB 데이터베이스 이름
+#      auto-index-creation: true  # 자동 인덱스 및 컬렉션 생성 활성화
+
+#    mongodb:
+#      uri: mongodb://localhost:27017/mydb2  # MongoDB URI에 인증 정보 포함
+#      database: mydb2  # 사용할 MongoDB 데이터베이스 이름
+#      auto-index-creation: true  # 자동 인덱스 및 컬렉션 생성 활성화
 
 management:
   endpoints:

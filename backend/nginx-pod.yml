@@ -1,0 +1,11 @@
+apiVersion: v1 # pod 사용시에는 버전을 적음(공식문서 참고)
+kind: Pod  # 리소스 생성 방식 중 pod 라는 종류를 사용
+
+metadata:
+  name: nginx-pod # metadata : 기본정보 기재
+spec: # pod 에 대한 세부 정보
+  containers:
+    - name: nginx-container
+      image: nginx # 도커허브에서 다운받을 이미지:tag
+      ports:
+      - containerPort: 80  # container에 nginx를 띄울 때 몇 번 포트를 사용할지를 명시- containerPort: 80 # 그냥 문서화하면서 적는 정보일 뿐 다른 포트를 쓴다해도 80에 띄워짐 주의

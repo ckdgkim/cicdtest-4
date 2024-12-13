@@ -9,3 +9,4 @@ COPY ./build/libs/backend-0.0.1-SNAPSHOT.jar /app/backend.jar
 
 # Step 4: MySQL이 준비될 때까지 대기 (30초 대기)
 CMD sleep 10 && java -jar /app/backend.jar
+
