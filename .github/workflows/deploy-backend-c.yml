@@ -83,5 +83,9 @@ jobs:
                 -e DB_PASSWORD=1234 \
                 -e MONGODB_URI=mongodb://ip-10-0-69-204.ap-northeast-2.compute.internal:27017/mydb2 \
                 ckdgkim/backendproject:back-1
+              
+              exit
             INNER_EOF
+            
+            eixt
           EOF
