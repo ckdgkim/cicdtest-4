@@ -55,12 +55,12 @@ jobs:
 
           # 베스천 서버로 접속
           echo "Step 1: Connecting to Bastion server (43.202.2.160)"
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@43.202.2.160 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@43.202.2.160 << EOF
             echo "Connected to Bastion server (43.202.2.160)"
           
             # 사내 EC2로 접속
             echo "Step 2: Connecting to internal EC2 (10.0.69.204)"
-            ssh -i /home/ec2-user/qwe.pem ec2-user@10.0.69.204 << 'INNER_EOF'
+            ssh -i /home/ec2-user/qwe.pem ec2-user@10.0.69.204 << INNER_EOF
               echo "Connected to internal EC2 (10.0.69.204)"
           
               # Docker 이미지 가져오기
