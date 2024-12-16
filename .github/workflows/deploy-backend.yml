@@ -23,11 +23,15 @@ jobs:
           java-version: '17'  # Java 17 버전 설치
           distribution: 'temurin'  # JDK 배포판 지정 (Temurin)
 
-      # 3. Gradle로 빌드
+      # 3. Gradle 실행 권한 부여
+      - name: Grant execute permission to gradlew
+        run: chmod +x cicdtest4/backend/gradlew  # gradlew에 실행 권한 부여
+
+      # 4. Gradle로 빌드
       - name: Build with Gradle
         run: |
           cd cicdtest4/backend  # 정확한 경로로 이동
-          dir  # 디렉토리 내용 확인
+          ls -la  # 디렉토리 내용 확인
           ./gradlew clean build  # gradlew로 빌드 실행
 
 
