@@ -44,27 +44,37 @@ jobs:
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
           docker push ckdgkim/backendproject:back-1
 
-      # SSH Jump Host를 사용해 사내 서브넷 EC2에 배포
+
+
+
+      # 6. SSH Jump Host를 사용해 사내 서브넷 EC2에 배포
       - name: Deploy to EC2 via Bastion
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.QWE_PEM }}" > ~/.ssh/qwe.pem
           chmod 600 ~/.ssh/qwe.pem
-          
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyJump=ec2-user@43.202.2.160 \
-              -i ~/.ssh/qwe.pem ec2-user@10.0.69.204 << 'EOF'
-          docker pull ckdgkim/backendproject:back-1
-          docker network create mynetwork || true
-          docker stop backend-container || true
-          docker rm backend-container || true
-          docker run -d --name backend-container \
-            --network mynetwork \
-            -p 8080:8080 \
-            -e DB_HOST=mysql-backend \
-            -e DB_PORT=3306 \
-            -e DB_USER=root \
-            -e DB_PASSWORD=1234 \
-            -e MONGODB_URI=mongodb://mongodb:27017/mydb2 \
-            ckdgkim/backendproject:back-1
-          EOF
 
+          # 베스천 서버로 접속
+          echo "Step 1: Connecting to Bastion server (43.202.2.160)"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@43.202.2.160 << 'EOF'
+            echo "Connected to Bastion server (43.202.2.160)"
+          
+            # 사내 EC2로 접속
+            echo "Step 2: Connecting to internal EC2 (10.0.69.204)"
+            ssh -i /home/ec2-user/qwe.pem ec2-user@10.0.69.204 << 'INNER_EOF'
+              echo "Connected to internal EC2 (10.0.69.204)"
+              docker pull ckdgkim/backendproject:back-1
+              docker network create mynetwork || true
+              docker stop backend-container || true
+              docker rm backend-container || true
+              docker run -d --name backend-container \
+                --network mynetwork \
+                -p 8080:8080 \
+                -e DB_HOST=mysql-backend \
+                -e DB_PORT=3306 \
+                -e DB_USER=root \
+                -e DB_PASSWORD=1234 \
+                -e MONGODB_URI=mongodb://mongodb:27017/mydb2 \
+                ckdgkim/backendproject:back-1
+            INNER_EOF
+          EOF
