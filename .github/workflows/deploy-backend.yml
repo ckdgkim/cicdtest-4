@@ -1,0 +1,56 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push될 때 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          path: ./backend
+
+      # 2. Gradle로 빌드
+      - name: Build with Gradle
+        run: |
+          cd ./backend
+          ./gradlew clean build
+
+      # 3. Docker 이미지 빌드 및 Docker Hub에 푸시
+      - name: Build and Push Docker Image
+        run: |
+          cd ./backend
+          docker build -t ckdgkim/backendproject:back-1 .
+          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+          docker push ckdgkim/backendproject:back-1
+
+      # SSH Jump Host를 사용해 사내 서브넷 EC2에 배포
+      - name: Deploy to EC2 via Bastion
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.QWE_PEM }}" > ~/.ssh/qwe.pem
+          chmod 600 ~/.ssh/qwe.pem
+          
+          ssh -o ProxyJump=ec2-user@43.202.2.160 \
+              -i ~/.ssh/qwe.pem ec2-user@10.0.69.204 << 'EOF'
+          docker pull ckdgkim/backendproject:back-1
+          docker network create mynetwork || true
+          docker stop backend-container || true
+          docker rm backend-container || true
+          docker run -d --name backend-container \
+            --network mynetwork \
+            -p 8080:8080 \
+            -e DB_HOST=mysql-backend \
+            -e DB_PORT=3306 \
+            -e DB_USER=root \
+            -e DB_PASSWORD=1234 \
+            -e MONGODB_URI=mongodb://mongodb:27017/mydb2 \
+            ckdgkim/backendproject:back-1
+          EOF
+
