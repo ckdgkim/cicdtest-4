@@ -6,7 +6,7 @@ on:
       - main  # main 브랜치에 push될 때 실행
 
 jobs:
-  frontend-a:
+  frontend-c:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,8 +35,8 @@ jobs:
             docker network create mynetwork || true
 
             # 기존 컨테이너 종료 및 삭제
-            docker stop frontend-container || true
-            docker rm frontend-container || true
+            docker stop frontend-container-c || true
+            docker rm frontend-container-c || true
 
             # 새 컨테이너 실행
             docker run -d  --name frontend-container-c \
