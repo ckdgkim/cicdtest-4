@@ -30,6 +30,9 @@ jobs:
 
             # Docker 이미지 가져오기
             docker pull ckdgkim/frontendproject:front-1
+          
+            # 네트워크 생성 (이미 존재하면 무시)
+            docker network create mynetwork || true
 
             # 기존 컨테이너 종료 및 삭제
             docker stop frontend-container || true
