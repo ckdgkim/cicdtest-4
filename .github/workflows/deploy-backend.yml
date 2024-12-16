@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # Windows 환경에서 실행
 
     steps:
       # 1. 코드 체크아웃
@@ -20,9 +20,8 @@ jobs:
       - name: Build with Gradle
         run: |
           cd cicdtest4/backend  # 정확한 경로로 이동
-          ls -la  # 디렉토리 내용 확인
-          chmod +x gradlew  # gradlew에 실행 권한 부여
-          ./gradlew clean build
+          dir  # 디렉토리 내용 확인
+          ./gradlew.bat clean build  # gradlew.bat로 빌드 실행
 
       # 3. Docker 이미지 빌드 및 Docker Hub에 푸시
       - name: Build and Push Docker Image
