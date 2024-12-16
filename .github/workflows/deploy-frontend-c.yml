@@ -6,7 +6,7 @@ on:
       - main  # main 브랜치에 push될 때 실행
 
 jobs:
-  backend-a:
+  frontend-a:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,9 +24,9 @@ jobs:
       # 3. EC2에 배포
       - name: Deploy to EC2
         run: |
-          echo "Step 1: Connecting to EC2 instance (43.202.2.160)"
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@43.202.2.160 << EOF
-            echo "Connected to EC2 (43.202.2.160)"
+          echo "Step 1: Connecting to EC2 instance (15.164.217.150)"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@15.164.217.150 << EOF
+            echo "Connected to EC2 (15.164.217.150)"
 
             # Docker 이미지 가져오기
             docker pull ckdgkim/frontendproject:front-1
@@ -36,7 +36,7 @@ jobs:
             docker rm frontend-container || true
 
             # 새 컨테이너 실행
-            docker run -d --name frontend-container \
+            docker run -d  --name frontend-container-c \
               --network mynetwork \
               -p 80:80 \
               ckdgkim/frontendproject:front-1
