@@ -47,7 +47,6 @@ jobs:
 
 
 
-      # 6. SSH Jump Host를 사용해 사내 서브넷 EC2에 배포
       - name: Deploy to EC2 via Bastion
         run: |
           mkdir -p ~/.ssh
@@ -68,12 +67,11 @@ jobs:
               docker pull ckdgkim/backendproject:back-1
           
               # 네트워크 생성 (이미 존재하면 무시)
-              #docker network create mynetwork || true
+              docker network create mynetwork || true
           
               # 기존 컨테이너 종료 및 삭제
               docker stop backend-container || true
               docker rm backend-container || true
-          
           
               # 새 컨테이너 실행
               docker run -d --name backend-container \
