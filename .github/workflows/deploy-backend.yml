@@ -51,7 +51,7 @@ jobs:
           echo "${{ secrets.QWE_PEM }}" > ~/.ssh/qwe.pem
           chmod 600 ~/.ssh/qwe.pem
           
-          ssh -o ProxyJump=ec2-user@43.202.2.160 \
+          ssh -o StrictHostKeyChecking=no -o ProxyJump=ec2-user@43.202.2.160 \
               -i ~/.ssh/qwe.pem ec2-user@10.0.69.204 << 'EOF'
           docker pull ckdgkim/backendproject:back-1
           docker network create mynetwork || true
