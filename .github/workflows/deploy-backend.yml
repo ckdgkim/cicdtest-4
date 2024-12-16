@@ -63,10 +63,18 @@ jobs:
             echo "Step 2: Connecting to internal EC2 (10.0.69.204)"
             ssh -i /home/ec2-user/qwe.pem ec2-user@10.0.69.204 << 'INNER_EOF'
               echo "Connected to internal EC2 (10.0.69.204)"
+          
+              # Docker 이미지 가져오기
               docker pull ckdgkim/backendproject:back-1
+          
+              # 네트워크 생성 (이미 존재하면 무시)
               docker network create mynetwork || true
+          
+              # 기존 컨테이너 종료 및 삭제
               docker stop backend-container || true
               docker rm backend-container || true
+          
+              # 새 컨테이너 실행
               docker run -d --name backend-container \
                 --network mynetwork \
                 -p 8080:8080 \
