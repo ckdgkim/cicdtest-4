@@ -18,6 +18,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // MongoDB 의존성 추가
 

@@ -54,14 +54,14 @@ jobs:
           chmod 600 ~/.ssh/qwe.pem
 
           # 베스천 서버로 접속
-          echo "Step 1: Connecting to Bastion server (15.164.217.150)"
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@15.164.217.150 << EOF
-            echo "Connected to Bastion server (15.164.217.150)"
+          echo "Step 1: Connecting to Bastion server ("${{ vars.PUB_IP_C }}")"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/qwe.pem ec2-user@"${{ vars.PUB_IP_C }}" << EOF
+            echo "Connected to Bastion server ("${{ vars.PUB_IP_C }}")"
           
             # 사내 EC2로 접속
-            echo "Step 2: Connecting to internal EC2 (10.0.87.165)"
-            ssh -i /home/ec2-user/qwe.pem ec2-user@10.0.87.165 << 'INNER_EOF'
-              echo "Connected to internal EC2 (10.0.87.165)"
+            echo "Step 2: Connecting to internal EC2 ("${{ vars.PRIVATE_IP_C }}")"
+            ssh -i /home/ec2-user/qwe.pem ec2-user@"${{ vars.PRIVATE_IP_C }}" << 'INNER_EOF'
+              echo "Connected to internal EC2 ("${{ vars.PRIVATE_IP_C }}")"
           
               # Docker 이미지 가져오기
               docker pull ckdgkim/backendproject:back-1
@@ -77,11 +77,12 @@ jobs:
               docker run  -d --name backend-container-c \
                 --network mynetwork \
                 -p 8080:8080 \
-                -e DB_HOST=ip-10-0-69-204.ap-northeast-2.compute.internal \
+                -e DB_HOST="${{ vars.PRIVATE_IP_A }}" \
                 -e DB_PORT=3306 \
                 -e DB_USER=root \
                 -e DB_PASSWORD=1234 \
-                -e MONGODB_URI=mongodb://ip-10-0-69-204.ap-northeast-2.compute.internal:27017/mydb2 \
+                -e MONGODB_URI=mongodb://"${{ vars.PRIVATE_IP_A }}":27017/mydb2 \
+                -e REDIS_HOST="${{ vars.PRIVATE_IP_A }}" \
                 ckdgkim/backendproject:back-1
               
               exit

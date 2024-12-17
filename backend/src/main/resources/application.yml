@@ -48,6 +48,11 @@ spring:
 #      database: mydb2  # 사용할 MongoDB 데이터베이스 이름
 #      auto-index-creation: true  # 자동 인덱스 및 컬렉션 생성 활성화
 
+#  redis:
+#    host: ${REDIS_HOST}  # REDIS_HOST 환경변수 값을 사용 (기본값 없음)
+#    port: 6379
+#    timeout: 2000 # 타임아웃 설정 (기본값 2000ms)
+
 management:
   endpoints:
     web:
