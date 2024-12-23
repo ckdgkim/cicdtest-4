@@ -36,8 +36,8 @@ jobs:
       - name: Generate Docker Image Tag
         id: docker_tag
         run: |
-          # 시간 기반 또는 커밋 기반 태그 생성
-          tag=$(date +'%Y%m%d%H%M%S')-${{ github.sha::7 }}
+          # 시간 기반 + SHA 앞 7자리 태그 생성
+          tag=$(date +'%Y%m%d%H%M%S')-$(echo "${{ github.sha }}" | cut -c1-7)
           echo "TAG=${tag}" >> $GITHUB_ENV
 
       # 6. Docker 이미지 빌드 및 푸시
