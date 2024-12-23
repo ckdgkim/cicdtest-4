@@ -67,7 +67,7 @@ jobs:
       # 6. Kubernetes 배포 적용
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f cicdtest4/backend-eks.yml
+          kubectl apply -f cicdtest4/backend/backend-eks.yml
 
       # 7. 배포 확인
       - name: Check Deployment Status
