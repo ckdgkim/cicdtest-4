@@ -32,17 +32,27 @@ jobs:
           npm install  # 의존성 설치
           npm run build  # 빌드 실행
 
-      # 5. Docker 이미지 빌드
+      # 5. Docker 이미지 태그 자동 증가
+      - name: Get next image tag
+        id: get_tag
+        run: |
+          # 최신 이미지 태그를 가져와서 1을 증가시킴
+          latest_tag=$(docker pull ckdgkim/frontendproject:front | grep "Tag" | awk -F'[: ]' '{print $3}' | sort -n | tail -n 1)
+          new_tag=$((latest_tag + 1))
+          echo "new_tag=$new_tag" >> $GITHUB_ENV  # GitHub 환경 변수에 저장
+
+      # 6. Docker 이미지 빌드
       - name: Build Docker Image
         run: |
-          cd frontend  # 정확한 경로로 이동
-          docker build -t ckdgkim/frontendproject:front-1 .  # Docker 이미지 빌드
+          cd frontend
+          docker build -t ckdgkim/frontendproject:front-${{ env.new_tag }} .  # 새로운 태그를 사용하여 빌드
 
-      # 6. Docker Hub에 푸시
+      # 7. Docker Hub에 푸시
       - name: Push Docker Image to Docker Hub
         run: |
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-          docker push ckdgkim/frontendproject:front-1  # Docker Hub에 푸시
+          docker push ckdgkim/frontendproject:front-${{ env.new_tag }}  # Docker Hub에 푸시
+
 
       # 7. AWS CLI 설정
       - name: Configure AWS CLI
