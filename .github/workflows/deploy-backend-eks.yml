@@ -55,7 +55,7 @@ jobs:
       - name: Update Kubernetes Deployment YAML
         run: |
           cd cicdtest4/backend  # backend 폴더로 이동
-          sed -i "s|***/backendproject:back-PLACEHOLDER_TAG|***/backendproject:back-${{ env.TAG }}|g" backend-eks.yml
+          sed -i "s|ckdgkim/backendproject:back-PLACEHOLDER_TAG|ckdgkim/backendproject:back-${{ env.TAG }}|g" backend-eks.yml
 
       
       
