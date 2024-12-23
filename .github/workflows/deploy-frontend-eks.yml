@@ -32,18 +32,26 @@ jobs:
           npm install  # 의존성 설치
           npm run build  # 빌드 실행
 
-      # 5. Docker 이미지 빌드
-      - name: Build Docker Image with unique tag
+      # 5. Docker 이미지 태그 생성
+      - name: Generate Docker Image Tag
+        id: docker_tag
         run: |
-          # 현재 시간을 기반으로 태그 생성 (예: 2024-12-23-12-30)
-          timestamp=$(date +'%Y-%m-%d-%H-%M')
-          docker build -t ckdgkim/frontendproject:front-${timestamp} .  # 시간 기반 태그로 빌드
+          # 시간 기반 또는 커밋 기반 태그 생성
+          tag=$(date +'%Y%m%d%H%M%S')-${{ github.sha::7 }}
+          echo "TAG=${tag}" >> $GITHUB_ENV
 
-      # 6. Docker Hub에 푸시
-      - name: Push Docker Image to Docker Hub
+      # 6. Docker 이미지 빌드 및 푸시
+      - name: Build and Push Docker Image
         run: |
+          cd frontend
+          docker build -t ckdgkim/frontendproject:front-${{ env.TAG }} .
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-          docker push ckdgkim/frontendproject:front-${timestamp}  # 시간 기반 태그로 푸시
+          docker push ckdgkim/frontendproject:front-${{ env.TAG }}
+
+      # 7. Kubernetes 파일 업데이트
+      - name: Update Kubernetes Deployment
+        run: |
+          sed -i "s|ckdgkim/frontendproject:front-PLACEHOLDER_TAG|ckdgkim/frontendproject:front-${{ env.TAG }}|g" ./backend/frontend-eks.yml
 
 
       # 7. AWS CLI 설정
