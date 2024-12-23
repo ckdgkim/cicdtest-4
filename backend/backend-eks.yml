@@ -16,8 +16,8 @@ spec:
         app: backend
       containers:
         - name: backend
-#          image: ckdgkim/backendproject:back-1  # 백엔드 Docker 이미지
-          image: ckdgkim/backendproject:back-PLACEHOLDER_TAG
+          image: ckdgkim/backendproject:back-1  # 백엔드 Docker 이미지
+#          image: ckdgkim/backendproject:back-PLACEHOLDER_TAG
           # 이 부분이 동적으로 업데이트됨
           env:
             - name: DB_HOST
