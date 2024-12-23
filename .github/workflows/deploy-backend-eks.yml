@@ -40,21 +40,22 @@ jobs:
         id: docker_tag
         run: |
           tag=$(date +'%Y%m%d%H%M%S')-$(echo "${{ github.sha }}" | cut -c1-7)
-          echo "tag=${tag}" >> $GITHUB_ENV
+          echo "TAG=${tag}" >> $GITHUB_ENV
 
 
-      # 6. Kubernetes 배포 파일 업데이트
-      - name: Update Kubernetes Deployment
-        run: |
-          sed -i "s|ckdgkim/backendproject:PLACEHOLDER_TAG|ckdgkim/backendproject:back-${{ env.tag }}|g" cicdtest4/backend/backend-eks.yml
-
-      # 7. Docker 이미지 빌드 및 푸시
+      # 6. Docker 이미지 빌드 및 푸시
       - name: Build and Push Docker Image
         run: |
           cd cicdtest4/backend
-          docker build -t ckdgkim/backendproject:${{ env.tag }} .
+          docker build -t ckdgkim/backendproject:${{ env.TAG }} .
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-          docker push ckdgkim/backendproject:${{ env.tag }}
+          docker push ckdgkim/backendproject:back-${{ env.TAG }}
+
+      # 7. Kubernetes 배포 파일 업데이트
+      - name: Update Kubernetes Deployment
+        run: |
+          sed -i "s|ckdgkim/backendproject:PLACEHOLDER_TAG|ckdgkim/backendproject:back-${{ env.TAG }}|g" cicdtest4/backend/backend-eks.yml
+
       
       
       
