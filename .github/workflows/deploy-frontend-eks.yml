@@ -14,13 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. Node.js 및 NPM 설치
+      # 2. 디렉토리 구조 확인 (디버깅)
+      - name: Check directory structure
+        run: |
+          ls -la  # 현재 디렉토리의 구조 확인
+
+      # 3. Node.js 및 NPM 설치
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # 원하는 Node.js 버전으로 설정
+          node-version: '16'
 
-      # 3. 의존성 설치 및 빌드
+      # 4. 의존성 설치 및 빌드
       - name: Install dependencies and build
         run: |
           cd cicdtest4/frontend  # 정확한 경로로 이동
