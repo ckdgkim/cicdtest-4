@@ -19,16 +19,16 @@ jobs:
         run: |
           ls -la  # 현재 디렉토리의 구조 확인
 
-      # 3. Node.js 및 NPM 설치
+      # 2. Node.js 및 NPM 설치
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16'  # 원하는 Node.js 버전으로 설정
 
-      # 4. 의존성 설치 및 빌드
+      # 3. 의존성 설치 및 빌드
       - name: Install dependencies and build
         run: |
-          cd cicdtest4/frontend  # 정확한 경로로 이동
+          cd frontend  # cicdtest4/ 디렉토리 안에 있는 frontend로 이동
           npm install  # 의존성 설치
           npm run build  # 빌드 실행
 
