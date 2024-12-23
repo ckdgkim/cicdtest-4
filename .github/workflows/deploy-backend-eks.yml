@@ -51,6 +51,7 @@ jobs:
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
           docker push ckdgkim/backendproject:back-${{ env.TAG }}
 
+
       # 7. Kubernetes 배포 파일 업데이트
       - name: Update Kubernetes Deployment
         run: |
