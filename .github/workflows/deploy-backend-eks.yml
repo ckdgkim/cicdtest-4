@@ -56,12 +56,14 @@ jobs:
       - name: Update Kubernetes Deployment
         run: |
           sed -i "s|ckdgkim/backendproject:PLACEHOLDER_TAG|ckdgkim/backendproject:back-${{ env.TAG }}|g" cicdtest4/backend/backend-eks.yml
-
+      
+      
+      
       
       
       
 
-#        # 3. Docker 이미지 빌드 및 Docker Hub에 푸시
+      #        # 3. Docker 이미지 빌드 및 Docker Hub에 푸시
 #      - name: Build and Push Docker Image
 #        run: |
 #          cd cicdtest4/backend
