@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    # ALB Ingress Controller가 이 Ingress 리소스를 ALB와 연결하도록 합니다.
+    alb.ingress.kubernetes.io/scheme: internet-facing  # ALB가 인터넷-facing으로 설정되도록
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-002ca49f7be1fe77f  # ALB가 배포될 서브넷 지정
+    alb.ingress.kubernetes.io/security-groups: sg-04e86530f27bb2c0b  # ALB에 연결할 보안 그룹 지정
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+spec:
+  rules:
+#    - host: my-domain.com  # ALB가 연결할 도메인
+     - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80

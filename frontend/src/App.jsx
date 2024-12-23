@@ -6,7 +6,7 @@ function App() {
     const [message, setMessage] = useState('12345');
     // const [ipMessage, setIpMessage] = useState('');  // IP 메시지를 저장할 상태
     useEffect(() => {
-        // Spring Boot의 /api/hello API 호출
+
         axios.get('https://www.jjhotel.kro.kr/api/hello')
         // axios.get('http://localhost:8080/api/hello')
 
