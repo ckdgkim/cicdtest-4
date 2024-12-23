@@ -42,7 +42,6 @@ jobs:
           tag=$(date +'%Y%m%d%H%M%S')-$(echo "${{ github.sha }}" | cut -c1-7)
           echo "TAG=${tag}" >> $GITHUB_ENV
 
-
       # 6. Docker 이미지 빌드 및 푸시
       - name: Build and Push Docker Image
         run: |
@@ -50,7 +49,6 @@ jobs:
           docker build -t ckdgkim/backendproject:back-${{ env.TAG }} .
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
           docker push ckdgkim/backendproject:back-${{ env.TAG }}
-
 
       # 7. Kubernetes 배포 파일 업데이트
       - name: Update Kubernetes Deployment
