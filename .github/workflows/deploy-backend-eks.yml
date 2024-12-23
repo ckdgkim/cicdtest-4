@@ -40,7 +40,8 @@ jobs:
         id: docker_tag
         run: |
           tag=$(date +'%Y%m%d%H%M%S')-$(echo "${{ github.sha }}" | cut -c1-7)
-          echo "tag=${TAG}" >> $GITHUB_ENV
+          echo "tag=${tag}" >> $GITHUB_ENV
+
 
       # 6. Kubernetes 배포 파일 업데이트
       - name: Update Kubernetes Deployment
